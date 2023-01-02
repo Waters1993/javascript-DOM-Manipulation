@@ -21,11 +21,11 @@ Bugs that still need to be fixed:
 
 Deployed Website: TBD
 
-![demo](./images/login.png)
+![demo](./images/login.PNG)
 
-![demo1](./images/login1.png)
+![demo1](./images/login1.PNG)
 
-![demo2](./images/login2.png)
+![demo2](./images/login2.PNG)
 
 ## Built With
 
