@@ -8,38 +8,35 @@ Bankist is a fictitious and minimalistic online banking application that allows 
 - Request a loan from the bank
 - Delete their account
 
-
 Log in credentials:
+
 - username: js | password: 1111
 - username: jd | password 2222
 
-
 Bugs that still need to be fixed:
-- sorting transactions
 
+- sorting transactions
 
 ## Deployment
 
-Deployed Website: https://rosajen27.github.io/bankist/
+Deployed Website: TBD
 
-![demo](./assets/img/login.png)
+![demo](./images/login.png)
 
-![demo1](./assets/img/login1.png)
+![demo1](./images/login1.png)
 
-![demo2](./assets/img/login2.png)
-
+![demo2](./images/login2.png)
 
 ## Built With
 
-  * HTML
-  * CSS
-  * JavaScript
+- HTML
+- CSS
+- JavaScript
 
 ## Authors
 
-  - **Jennifer Rosa**
-    [Rosajen27](https://rosajen27.github.io/)
-
+- **James Waters**
+  [james-waters](https://www.james-waters.com/)
 
 ## License
 
@@ -69,4 +66,4 @@ SOFTWARE.
 
 ## Acknowledgments
 
-  * The Complete JavaScript Course 2021: From Zero to Expert! by Jonas Schmedtmann
+- The Complete JavaScript Course 2021: From Zero to Expert! by Jonas Schmedtmann
