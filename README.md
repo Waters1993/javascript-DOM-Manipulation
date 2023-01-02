@@ -21,7 +21,7 @@ Bugs that still need to be fixed:
 
 Deployed Website: TBD
 
-![demo](./images/login.png)
+![demo](./images/login.PNG)
 
 ![demo1](./images/login1.png)
 
