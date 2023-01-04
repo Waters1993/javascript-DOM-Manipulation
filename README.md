@@ -1,5 +1,5 @@
 # 💸 Bankist
-
+[Experiment with the live version](https://waters1993.github.io/javascript-bankist/)
 Bankist is a fictitious and minimalistic online banking application that allows the user to:
 
 - Log in with a username and password
