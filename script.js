@@ -87,14 +87,27 @@ const btnSort = document.querySelector('.btn--sort');
 const inputLoginUsername = document.querySelector('.login__input--user');
 const inputLoginPin = document.querySelector('.login__input--pin');
 const inputTransferTo = document.querySelector('.form__input--to');
+inputTransferTo.title = 'Accounts you can transfer to: jw, jd, or bs';
 const inputTransferAmount = document.querySelector('.form__input--amount');
 const inputLoanAmount = document.querySelector('.form__input--loan-amount');
 const inputCloseUsername = document.querySelector('.form__input--user');
 const inputClosePin = document.querySelector('.form__input--pin');
 
+const modal = document.querySelector('.modal');
+
 /////////////////////////////////////////////////
 /////////////////////////////////////////////////
 // FUNCTIONS
+
+// Close modal
+const closeModal = function () {
+  modal.classList.add('hidden');
+};
+
+// Open modal
+const openModal = function () {
+  modal.classList.remove('hidden');
+};
 
 // Update UI
 const updateUI = function (acc) {
@@ -161,6 +174,7 @@ const startLogOutTimer = function () {
       clearInterval(timer);
       labelWelcome.textContent = 'Log in to get started';
       containerApp.style.opacity = 0;
+      openModal();
     }
 
     // Decrease 1s
@@ -230,7 +244,7 @@ let currentAccount, timer;
 //Login
 btnLogin.addEventListener('click', function (e) {
   e.preventDefault();
-
+  closeModal();
   currentAccount = accounts.find(
     ({ username }) => username === inputLoginUsername.value
   );
@@ -341,5 +355,5 @@ const displaySummary = function (account) {
     .filter(mov => mov > 0)
     .map(deposit => (deposit * account.interestRate) / 100)
     .reduce((acc, curr) => acc + curr, 0);
-  labelSumInterest.textContent = `${formatCurrency(currentAccount, int)}€`;
+  labelSumInterest.textContent = `${formatCurrency(currentAccount, int)}`;
 };
