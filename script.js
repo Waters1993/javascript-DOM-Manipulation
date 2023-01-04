@@ -1,12 +1,10 @@
 'use strict';
 
-/////////////////////////////////////////////////
-/////////////////////////////////////////////////
 // BANKIST APP
 
-// Data
+/// Hard Coded Data
 const account1 = {
-  owner: 'Jonas Schmedtmann',
+  owner: 'James Waters',
   movements: [200, 455.23, -306.5, 25000, -642.21, -133.9, 79.97, 1300],
   interestRate: 1.2, // %
   pin: 1111,
@@ -22,7 +20,7 @@ const account1 = {
     '2020-07-12T10:51:36.790Z',
   ],
   currency: 'EUR',
-  locale: 'en-IE', // de-DE
+  locale: 'en-IE',
 };
 
 const account2 = {
@@ -41,13 +39,34 @@ const account2 = {
     '2020-06-25T18:49:59.371Z',
     '2020-07-26T12:01:20.894Z',
   ],
+  currency: 'GBP',
+  locale: 'en-GB',
+};
+
+const account3 = {
+  owner: 'Brian Smith',
+  movements: [4200, 2200, -180, -990, -3210, -500, 8500, -30],
+  interestRate: 1.5,
+  pin: 3333,
+
+  movementsDates: [
+    '2019-11-01T13:15:33.035Z',
+    '2019-11-30T09:48:16.867Z',
+    '2019-12-25T06:04:23.907Z',
+    '2020-01-25T14:18:46.235Z',
+    '2022-12-18T16:33:06.386Z',
+    '2023-01-03T14:43:26.374Z',
+    '2023-01-01T18:49:59.371Z',
+    '2022-12-26T12:01:20.894Z',
+  ],
   currency: 'USD',
   locale: 'en-US',
 };
 
-const accounts = [account1, account2];
+//Array of User Accounts
+const accounts = [account1, account2, account3];
 
-// Elements
+// DOM Element Selectors
 const labelWelcome = document.querySelector('.welcome');
 const labelDate = document.querySelector('.date');
 const labelBalance = document.querySelector('.balance__value');
@@ -77,11 +96,13 @@ const inputClosePin = document.querySelector('.form__input--pin');
 /////////////////////////////////////////////////
 // FUNCTIONS
 
-//Update UI function
+// Update UI
 const updateUI = function (acc) {
   calcDisplayBalance(acc.movements);
   displayMovements(acc.movements);
   displaySummary(acc);
+
+  // Clear form fields
   let elements = document.getElementsByClassName('form__input');
   console.log(elements);
   for (let i = 0; i < elements.length; i++) {
@@ -89,7 +110,7 @@ const updateUI = function (acc) {
   }
 };
 
-//Currency formatter
+// Currency formatter (Internationalization)
 const formatCurrency = function (acc, value) {
   const options = {
     style: 'currency',
@@ -99,7 +120,7 @@ const formatCurrency = function (acc, value) {
   return x;
 };
 
-//Date format for movements
+//Date formatter for movements (Internationalization)
 const formatMovementDate = function (date, locale) {
   const calcDaysPassed = (date1, date2) =>
     Math.round(Math.abs(date2 - date1) / (1000 * 60 * 60 * 24));
@@ -114,7 +135,7 @@ const formatMovementDate = function (date, locale) {
   return new Intl.DateTimeFormat(locale).format(date);
 };
 
-//Create User Names
+// Create two letter usernames from Owner names
 const createUserNames = function (accs) {
   accs.forEach(function (acc) {
     acc.username = acc.owner
@@ -126,6 +147,7 @@ const createUserNames = function (accs) {
 };
 createUserNames(accounts);
 
+// Log out timer
 const startLogOutTimer = function () {
   const tick = function () {
     const min = String(Math.trunc(time / 60)).padStart(2, 0);
@@ -145,7 +167,7 @@ const startLogOutTimer = function () {
     time--;
   };
 
-  // Set time to 5 minutes
+  // Set time to 2 minutes
   let time = 120;
 
   // Call the timer every second
@@ -155,7 +177,11 @@ const startLogOutTimer = function () {
   return timer;
 };
 
-//Display movements
+/////////////////////////////////////////////////
+/////////////////////////////////////////////////
+// DOM Manipulation
+
+// Display movements (user transactions table)
 const displayMovements = function (movements, sort = false) {
   containerMovements.innerHTML = '';
 
@@ -165,23 +191,18 @@ const displayMovements = function (movements, sort = false) {
     const displayDate = formatMovementDate(date);
 
     const type = mov > 0 ? 'deposit' : 'withdrawal';
-    const html = ` <div class="movements__row">
-        <div class="movements__type movements__type--${type}">${
-      i + 1
-    }  ${type}</div>
-    <div class="movements__date">${displayDate}</div>
-        <div class="movements__value">${formatCurrency(
-          currentAccount,
-          mov
-        )}</div>
-      </div>`;
+    // prettier-ignore
+    const html = 
+    `<div class="movements__row">
+        <div class="movements__type movements__type--${type}">${i + 1}  ${type}</div>
+        <div class="movements__date">${displayDate}</div>
+        <div class="movements__value">${formatCurrency(currentAccount, mov)}</div>
+    </div>`;
     containerMovements.insertAdjacentHTML('afterbegin', html);
 
     // Color rows
-    [...document.querySelectorAll('.movements__row')].forEach(function (
-      row,
-      i
-    ) {
+    // prettier-ignore
+    [...document.querySelectorAll('.movements__row')].forEach(function (row, i) {
       if (i % 2 === 0) {
         row.style.backgroundColor = '#E0E0E0';
       } else {
@@ -197,39 +218,14 @@ const calcDisplayBalance = function (movements) {
   labelBalance.innerHTML = `${formatCurrency(currentAccount, balance)}`;
 };
 
-//Display summary
-const displaySummary = function (account) {
-  const income = account.movements
-    .filter(mov => mov > 0)
-    .reduce((acc, curr, arr) => acc + curr);
-  labelSumIn.textContent = `${formatCurrency(currentAccount, income)}€`;
-
-  const outgoing = account.movements
-    .filter(mov => mov < 0)
-    .reduce((acc, curr) => acc + curr);
-
-  labelSumOut.textContent = `${formatCurrency(
-    currentAccount,
-    Math.abs(outgoing)
-  )}`;
-
-  const int = account.movements
-    .filter(mov => mov > 0)
-    .map(deposit => (deposit * account.interestRate) / 100)
-    .reduce((acc, curr) => acc + curr, 0);
-  labelSumInterest.textContent = `${formatCurrency(currentAccount, int)}€`;
-};
-
 // Login functionality
 let currentAccount, timer;
 
-//Fake login
-currentAccount = accounts[0];
-containerApp.style.opacity = 100;
-updateUI(currentAccount);
-inputLoginPin.value = inputLoginUsername.value = '';
-
-console.log(formatCurrency(currentAccount, 400000));
+///// Simulate login for testing
+// currentAccount = accounts[0];
+// containerApp.style.opacity = 100;
+// updateUI(currentAccount);
+// inputLoginPin.value = inputLoginUsername.value = '';
 
 //Login
 btnLogin.addEventListener('click', function (e) {
@@ -239,9 +235,9 @@ btnLogin.addEventListener('click', function (e) {
     ({ username }) => username === inputLoginUsername.value
   );
 
-  labelWelcome.textContent = `Welcome back, ${
-    currentAccount.owner.split(' ')[0]
-  }`;
+  // Welcome back message with users first name
+  // prettier-ignore
+  labelWelcome.textContent = `Welcome back, ${currentAccount.owner.split(' ')[0]}`;
   if (currentAccount?.pin === Number(inputLoginPin.value)) {
     containerApp.style.opacity = 100;
     updateUI(currentAccount);
@@ -262,13 +258,13 @@ btnLogin.addEventListener('click', function (e) {
       options
     ).format(now);
 
-    // Timer
+    // Start Timer
     if (timer) clearInterval(timer);
     timer = startLogOutTimer();
   }
 });
 
-// Transfer functionality
+// Transfer functionality between accounts
 btnTransfer.addEventListener('click', function (e) {
   e.preventDefault();
   const value = Number(inputTransferAmount.value);
@@ -302,7 +298,7 @@ btnLoan.addEventListener('click', function (e) {
   }
 });
 
-//Close account
+//Close active users account
 btnClose.addEventListener('click', function (e) {
   e.preventDefault();
   const user = inputCloseUsername.value;
@@ -317,6 +313,7 @@ btnClose.addEventListener('click', function (e) {
   }
 });
 
+// Sort movements (transactions)
 let sort = false;
 btnSort.addEventListener('click', function (e) {
   e.preventDefault;
@@ -324,12 +321,25 @@ btnSort.addEventListener('click', function (e) {
   sort = !sort;
 });
 
-const currencies = new Map([
-  ['USD', 'United States dollar'],
-  ['EUR', 'Euro'],
-  ['GBP', 'Pound sterling'],
-]);
+//Display  footer summary
+const displaySummary = function (account) {
+  const income = account.movements
+    .filter(mov => mov > 0)
+    .reduce((acc, curr, arr) => acc + curr);
+  labelSumIn.textContent = `${formatCurrency(currentAccount, income)}€`;
 
-const movements = [200, 450, -400, 3000, -650, -130, 70, 1300];
+  const outgoing = account.movements
+    .filter(mov => mov < 0)
+    .reduce((acc, curr) => acc + curr);
 
-/////////////////////////////////////////////////
+  labelSumOut.textContent = `${formatCurrency(
+    currentAccount,
+    Math.abs(outgoing)
+  )}`;
+
+  const int = account.movements
+    .filter(mov => mov > 0)
+    .map(deposit => (deposit * account.interestRate) / 100)
+    .reduce((acc, curr) => acc + curr, 0);
+  labelSumInterest.textContent = `${formatCurrency(currentAccount, int)}€`;
+};
