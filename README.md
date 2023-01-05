@@ -33,6 +33,7 @@ Bankist is a fictitious and minimalistic online banking application that allows 
 
 <img src="./images/login.PNG" alt="landingPage" width="800"/>
 <div align="center">Landing page</div>
+
 ## Built With
 
 - HTML
