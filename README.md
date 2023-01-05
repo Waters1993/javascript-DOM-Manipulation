@@ -1,5 +1,5 @@
 # 💸 Bankist
-[Experiment with the live version](https://waters1993.github.io/javascript-bankist/)
+[Experiment with the live version.](https://waters1993.github.io/javascript-bankist/) Try each user account to see the currency and date format change
 
 ## Motivation & Acknowledgements
 This project was created while completing "The Complete JavaScript Course 2021: From Zero to Expert!" by Jonas Schmedtmann
@@ -19,32 +19,17 @@ Additional work involved colouring the tranactions table and adding a modal wind
 
 
 
-
+## Description & Functionality
 
 Bankist is a fictitious and minimalistic online banking application that allows the user to:
 
-- Log in with a username and password
+- Log in with a provide username and password
 - View and sort their monetary movements
 - Transfer money to another account
 - Request a loan from the bank
 - Delete their account
 
-Log in credentials:
-
-- username: js | password: 1111
-- username: jd | password 2222
-
-
-
-## Deployment
-
-Deployed Website: TBD
-
-![demo](./images/login.PNG)
-
-![demo1](./images/login1.PNG)
-
-![demo2](./images/login2.PNG)
+<img src="./images/login2.PNG" alt="landingPage" width="800"/>
 
 ## Built With
 
