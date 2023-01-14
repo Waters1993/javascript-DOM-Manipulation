@@ -1,6 +1,6 @@
 # 💸 Bankist
 
-[Experiment with the live version.](https://waters1993.github.io/javascript-bankist/) Try each user account to see the currency and date format change
+[Experiment with the live version.](https://waters1993.github.io/javascript-DOM-Manipulation/) Try each user account to see the currency and date format change
 
 ## Motivation & Acknowledgements
 
